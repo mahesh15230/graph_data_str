@@ -7,20 +7,22 @@ class Node:
     nodes = {}
     graph = {}
     
-    def __init__(self,nodeName,classname):
+    def __init__(self,nodeName):
         self.name = nodeName
         self.incomingNeighbors = []
         self.outgoingNeighbors = []
-        self.classname = classname
+        self.classname = None
         Node.nodes[self.name] = self
         Node.graph[self] = self.outgoingNeighbors
         
-
     def getweight(self,node):
         if node in self.outgoingNeighbors:
-            return Edge.edgesFromNode[node].weight
+            print("Outgoing")
+            return Edge.edgesFromNode[getNodeName(node)].weight
         elif node in self.incomingNeighbors:
-            return Edge.edgesToNode[node].weight
+            print("Incoming")
+            print(getNodeName(node))
+            return Edge.edgesToNode[getNodeName(node)].weight
         else:
             print("Invalid Argument supplied")
 
@@ -83,7 +85,11 @@ class Node:
 #          startNode = self
 #          while 
 # =============================================================================
-              
+
+def getNodeName(node):
+    lKey = [key for key, value in Node.nodes.items() if value == node][0]
+    return lKey
+
 def addNode(nodeName):
     nodeAdded = Node(nodeName)
     
@@ -93,10 +99,10 @@ class Edge:
     def __init__(self,fromNode,toNode,weight):
         if fromNode!=toNode:
             self.weight = weight
-            self.startNode = fromNode
-            self.endNode = toNode
-            Node.nodes[toNode].incomingNeighbors.append(Node.nodes[fromNode])
-            Node.nodes[fromNode].outgoingNeighbors.append(Node.nodes[toNode])
+            self.startNode = fromNode.name
+            self.endNode = toNode.name
+            Node.nodes[toNode.name].incomingNeighbors.append(Node.nodes[fromNode.name])
+            Node.nodes[fromNode.name].outgoingNeighbors.append(Node.nodes[toNode.name])
             Edge.edgesFromNode[self.startNode] = self
             Edge.edgesToNode[self.endNode] = self
             
@@ -147,3 +153,43 @@ def ptorc(product):
     for i in rootcauses:
         weightlist.append(Node.nodes[product].pathweightf(j,1))
         j+=1
+        
+addNode('WFN')
+addNode('EZLM')
+addNode('HRB')
+addNode('Memory usage')
+addNode('Mainframe')
+addNode('Unresponsive server')
+addNode('Server')
+addEdge(Node.nodes["Mainframe"],Node.nodes["WFN"],1)
+addEdge(Node.nodes["Mainframe"],Node.nodes["EZLM"],1)
+addEdge(Node.nodes["Mainframe"],Node.nodes["HRB"],1)
+addEdge(Node.nodes["Memory usage"],Node.nodes["WFN"],1)
+addEdge(Node.nodes["Memory usage"],Node.nodes["EZLM"],1)
+addEdge(Node.nodes["Memory usage"],Node.nodes["HRB"],1)
+addEdge(Node.nodes["Unresponsive server"],Node.nodes["Server"],.8)
+addEdge(Node.nodes["Server"],Node.nodes["WFN"],1)
+addEdge(Node.nodes["Server"],Node.nodes["EZLM"],1)
+addEdge(Node.nodes["Server"],Node.nodes["HRB"],1)
+
+print(Edge.edgesFromNode)
+print(Edge.edgesToNode)
+print(Edge.edgesFromNode['Mainframe'].weight)
+# =============================================================================
+# print(Node.nodes)
+# print(Edge.edgesFromNode)
+# print(Edge.edgesToNode)
+# =============================================================================
+print(Node.nodes['WFN'].getweight(Node.nodes["Mainframe"]))
+
+
+
+
+
+
+
+
+
+
+
+
