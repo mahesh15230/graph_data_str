@@ -17,75 +17,17 @@ class Node:
         
     def getweight(self,node):
         if node in self.outgoingNeighbors:
-            print("Outgoing")
-            return Edge.edgesFromNode[getNodeName(node)].weight
-        elif node in self.incomingNeighbors:
-            print("Incoming")
-            print(getNodeName(node))
             return Edge.edgesToNode[getNodeName(node)].weight
+        elif node in self.incomingNeighbors:
+            return Edge.edgesFromNode[getNodeName(node)].weight
         else:
             print("Invalid Argument supplied")
 
-    #Below def workf only if the tree strictly diverges
-    def pathweightf(self, toNode, toggle = None): #toNode can only be products
-        node = toNode
-        pathweight = 1
-        if toggle != None:
-            (self.incomingNeighbors,self.outgoingNeighbors) = (self.outgoingNeighbors,self.incomingNeighbors)
-            if not len(node.incomingNeighbors):    
-                while node!=self:
-                    pathweight *= Edge.edgesToNode[node].weight
-                    node = node.incomingNeighbors[0]
-                return pathweight
-            else:
-                print("Multiple causes can't affect a single entity")
-            (self.outgoingNeighbors,self.incomingNeighbors) = (self.incomingNeighbors,self.outgoingNeighbors)
-        else:
-            if not len(node.incomingNeighbors):    
-                while node!=self:
-                    pathweight *= Edge.edgesToNode[node].weight
-                    node = node.incomingNeighbors[0]
-                return pathweight
-            else:
-                print("Multiple causes can't affect a single entity")
-        
-# =============================================================================
-#     def pathweightr(self,fromNode): #fromNode can only be rootcause
-#         (self.incomingNeighbors,self.outgoingNeighbors) = (self.outgoingNeighbors,self.incomingNeighbors)
-#         self.pathweightf(fromNode)
-#         (self.outgoingNeighbors,self.incomingNeighbors) = (self.incomingNeighbors,self.outgoingNeighbors)
-# =============================================================================
-        
-# =============================================================================
-#     def maxgetweight(self,toggle = None, direction = 1): #toggle==None returns max weight
-#         pathweight = 0                    #toggle!=None returns the node with the max weight
-#         node = None
-#         if direction:
-#             for i in self.outgoingNeighbors:
-#                 if self.getweight(i) >= pathweight:
-#                     pathweight = self.getweight(i)
-#                     node = i
-#             if toggle == None:
-#                 return pathweight
-#             else:
-#                 return node
-#         else:
-# =============================================================================
-            
-# =============================================================================
-#     def maxpathWeight(self, toNode):
-#          pathweight = 1
-#          startnode = self.......................................
-#          while startnode!=toNode:
-#              pathweight *= startnode.maxgetweight()
-#              startnode = startnode.maxgetweight(1)
-#          return pathweight
-#      def pathWeightr(self,fromNodes):
-#          pathweight = 1
-#          startNode = self
-#          while 
-# =============================================================================
-
+def pathweight(fromNode,toNode):
+    weight = 1
+    #Insert dijkstra's algorithm here for non-directional graphs
+    #Also supplement the algorithm with weight multiplication
+    
 def getNodeName(node):
     lKey = [key for key, value in Node.nodes.items() if value == node][0]
     return lKey
@@ -101,6 +43,7 @@ class Edge:
             self.weight = weight
             self.startNode = fromNode.name
             self.endNode = toNode.name
+            self.length = 1
             Node.nodes[toNode.name].incomingNeighbors.append(Node.nodes[fromNode.name])
             Node.nodes[fromNode.name].outgoingNeighbors.append(Node.nodes[toNode.name])
             Edge.edgesFromNode[self.startNode] = self
@@ -154,33 +97,6 @@ def ptorc(product):
         weightlist.append(Node.nodes[product].pathweightf(j,1))
         j+=1
         
-addNode('WFN')
-addNode('EZLM')
-addNode('HRB')
-addNode('Memory usage')
-addNode('Mainframe')
-addNode('Unresponsive server')
-addNode('Server')
-addEdge(Node.nodes["Mainframe"],Node.nodes["WFN"],1)
-addEdge(Node.nodes["Mainframe"],Node.nodes["EZLM"],1)
-addEdge(Node.nodes["Mainframe"],Node.nodes["HRB"],1)
-addEdge(Node.nodes["Memory usage"],Node.nodes["WFN"],1)
-addEdge(Node.nodes["Memory usage"],Node.nodes["EZLM"],1)
-addEdge(Node.nodes["Memory usage"],Node.nodes["HRB"],1)
-addEdge(Node.nodes["Unresponsive server"],Node.nodes["Server"],.8)
-addEdge(Node.nodes["Server"],Node.nodes["WFN"],1)
-addEdge(Node.nodes["Server"],Node.nodes["EZLM"],1)
-addEdge(Node.nodes["Server"],Node.nodes["HRB"],1)
-
-print(Edge.edgesFromNode)
-print(Edge.edgesToNode)
-print(Edge.edgesFromNode['Mainframe'].weight)
-# =============================================================================
-# print(Node.nodes)
-# print(Edge.edgesFromNode)
-# print(Edge.edgesToNode)
-# =============================================================================
-print(Node.nodes['WFN'].getweight(Node.nodes["Mainframe"]))
 
 
 
