@@ -1,17 +1,36 @@
 #There can't be any repitition in the names of root causes, RCSs, products
 #Tree has to converge for RCSs
+#The tool shows the worst case scenario probability only
 
-import random as rnd
+class Queue:
+    def __init__(self):
+        self.items = []
+        
+    def isEmpty(self):
+        return self.items == []
+    
+    def enqueue(self, item):
+        self.items.insert(0,item)
+
+    def dequeue(self):
+        return self.items.pop()
+
+    def size(self):
+        return len(self.items)
+
+q = Queue()
 
 class Node:
     nodes = {}
     graph = {}
     
-    def __init__(self,nodeName):
+    def __init__(self,nodeName,classname):
         self.name = nodeName
         self.incomingNeighbors = []
         self.outgoingNeighbors = []
-        self.classname = None
+        self.classname = classname # Can be 'rootcause','HL','RCS' or 'product'
+        self.isVisited = False
+        self.nodeweight = 1
         Node.nodes[self.name] = self
         Node.graph[self] = self.outgoingNeighbors
         
@@ -22,18 +41,44 @@ class Node:
             return Edge.edgesFromNode[getNodeName(node)].weight
         else:
             print("Invalid Argument supplied")
+            
+    def reset(self):
+        self.isVisited = False
+        self.nodeweight = 0
+        
+    def bfs(self):
+        if self.classname == 'rootcause':
+            q.enqueue(self)
+            self.isVisited = True
+            while not q.isEmpty():
+                q.dequeue()
+                for i in self.outgoingNeighbors:
+                    if not i.isVisited:
+                        q.enqueue(i)
+                        i.isVisited = True
+                        i.nodeweight *= Edge.edgesToNode[getNodeName(i)].weight
+                        if i.classname == 'product':
+                            print(i.name," Outage occurence percentage is ",100*i.nodeweight)
+        else:
+            print("Invalid rootcause")
 
-def pathweight(fromNode,toNode):
-    weight = 1
-    #Insert dijkstra's algorithm here for non-directional graphs
-    #Also supplement the algorithm with weight multiplication
-    
 def getNodeName(node):
     lKey = [key for key, value in Node.nodes.items() if value == node][0]
     return lKey
 
 def addNode(nodeName):
     nodeAdded = Node(nodeName)
+    
+def resetNode(nodeName):
+    Node.nodes[nodeName].isVisited = False
+    Node.nodes[nodeName].nodeweight = 0
+
+
+    
+# =============================================================================
+# def setClassName(nodename,classname):
+#     Node.nodes[nodename].classname = classname
+# =============================================================================
     
 class Edge:
     edgesFromNode = {}
@@ -43,7 +88,6 @@ class Edge:
             self.weight = weight
             self.startNode = fromNode.name
             self.endNode = toNode.name
-            self.length = 1
             Node.nodes[toNode.name].incomingNeighbors.append(Node.nodes[fromNode.name])
             Node.nodes[fromNode.name].outgoingNeighbors.append(Node.nodes[toNode.name])
             Edge.edgesFromNode[self.startNode] = self
@@ -63,7 +107,7 @@ products = []
 # Basically create a data structure for each incident in history from which conditional probabilities can be calculated.
 #This data structure must be dynamic as root causes, HLs, RCSs and products can be removed and/or added.
 
-class history:
+class History:
     history = {}
     def __init__(self,label,rootcause,product):
         self.name = label
@@ -75,7 +119,8 @@ class history:
 def recordHistory(label,rootcause,product,HLs): #HLs must be a list.
     histrec = history(label,rootcause,product)
     try:
-        histrec.hiddenLayer += HLs
+        histrec.hiddenLayer += list(HLs)
+        History.history[label] = histrec
         print("Event recorded successfully")
     except:
         print("Hidden layers must be passed as a list only")
