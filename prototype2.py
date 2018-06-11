@@ -2,24 +2,6 @@
 #Tree has to converge for RCSs
 #The tool shows the worst case scenario probability only
 
-class Queue:
-    def __init__(self):
-        self.items = []
-        
-    def isEmpty(self):
-        return self.items == []
-    
-    def enqueue(self, item):
-        self.items.insert(0,item)
-
-    def dequeue(self):
-        return self.items.pop()
-
-    def size(self):
-        return len(self.items)
-
-q = Queue()
-
 class Node:
     nodes = {}
     graph = {}
@@ -46,28 +28,50 @@ class Node:
         self.isVisited = False
         self.nodeweight = 0
         
-    def bfs(self):
-        if self.classname == 'rootcause':
-            q.enqueue(self)
-            self.isVisited = True
-            while not q.isEmpty():
-                q.dequeue()
-                for i in self.outgoingNeighbors:
-                    if not i.isVisited:
-                        q.enqueue(i)
-                        i.isVisited = True
-                        i.nodeweight *= Edge.edgesToNode[getNodeName(i)].weight
-                        if i.classname == 'product':
-                            print(i.name," Outage occurence percentage is ",100*i.nodeweight)
+    def bfs(self, toggle = None): # toggle == None is rootcause to products
+        s = self
+        q = []
+        if toggle == None:
+            if self.classname == 'rootcause':
+                q.append(s)
+                self.isVisited = True
+                while not q.isEmpty():
+                    s = q.pop(0)
+                    for i in s.outgoingNeighbors:
+                        if not i.isVisited:
+                            q.append(i)
+                            i.isVisited = True
+                            i.nodeweight *= Edge.edgesToNode[getNodeName(i)].weight
+                            if i.classname == 'product':
+                                print("Outage occurence percentage for", i.name,"is ",100*i.nodeweight,"%")
+            else:
+                print("Invalid rootcause")
+            for i in Node.nodes.values():
+                i.reset()
         else:
-            print("Invalid rootcause")
+            if self.classname == 'product':
+                q.append(s)
+                self.isVisited = True
+                while not q.isEmpty():
+                    s = q.pop(0)
+                    for i in self.incomingNeighbors:
+                        if not i.isVisited:
+                            q.append(i)
+                            i.isVisited = True
+                            i.nodeweight *= Edge.edgesFromNode[getNodeName(i)].weight
+                            if i.classname == 'product':
+                                print("Outage occurence percentage for", i.name,"is ",100*i.nodeweight,"%")
+            else:
+                print("Invalid product")
+            for i in Node.nodes.values():
+                i.reset()
 
 def getNodeName(node):
     lKey = [key for key, value in Node.nodes.items() if value == node][0]
     return lKey
 
-def addNode(nodeName):
-    nodeAdded = Node(nodeName)
+def addNode(nodeName,classname):
+    nodeAdded = Node(nodeName,classname)
     
 def resetNode(nodeName):
     Node.nodes[nodeName].isVisited = False
@@ -114,10 +118,10 @@ class History:
         self.rootcause = rootcause
         self.product = product
         self.hiddenLayer = []
-        history[self.name] = self
+        History.history[self.name] = self
 
 def recordHistory(label,rootcause,product,HLs): #HLs must be a list.
-    histrec = history(label,rootcause,product)
+    histrec = History(label,rootcause,product)
     try:
         histrec.hiddenLayer += list(HLs)
         History.history[label] = histrec
@@ -125,32 +129,12 @@ def recordHistory(label,rootcause,product,HLs): #HLs must be a list.
     except:
         print("Hidden layers must be passed as a list only")
 
-
-
-def rctop(rootcause):
-    weightlist = []
-    j=0
-    for i in products:
-        weightlist.append(Node.nodes[rootcause].pathweightf(i))
-        print(i," outage probability is ",weightlist[j])
-        j+=1
-        
-def ptorc(product):
-    weightlist=[]
-    j=0
-    for i in rootcauses:
-        weightlist.append(Node.nodes[product].pathweightf(j,1))
-        j+=1
-        
-
-
-
-
-
-
-
-
-
-
-
-
+addNode('a','rootcause')
+addNode('b','rootcause')
+addNode('c','rootcause')
+addNode('d','HL')
+addNode('e','HL')
+addNode('f','product')
+addNode('g','product')
+addNode('h','product')
+addNode('i','product')
