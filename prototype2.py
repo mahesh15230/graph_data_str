@@ -35,7 +35,7 @@ class Node:
             if self.classname == 'rootcause':
                 q.append(s)
                 self.isVisited = True
-                while not len(q):
+                while len(q):
                     s = q.pop(0)
                     for i in s.outgoingNeighbors:
                         if not i.isVisited:
@@ -52,7 +52,7 @@ class Node:
             if self.classname == 'product':
                 q.append(s)
                 self.isVisited = True
-                while not len(q):
+                while len(q):
                     s = q.pop(0)
                     for i in self.incomingNeighbors:
                         if not i.isVisited:
