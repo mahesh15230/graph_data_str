@@ -130,8 +130,8 @@ class Node:
                             #print("Upcoming node is",i.name,"weight to be multiplied is", Edge.edges[i.name+str(":")+s.name].weight)
                             i.nodeweight *= Edge.edges[i.name+str(":")+s.name].weight * s.nodeweight
                             #print("Pathweight so far is", i.nodeweight)
-                            if i.classname == 'product':
-                                print("Outage occurence percentage for", i.name,"is ",100*i.nodeweight,"%")
+                            if i.classname == 'rootcause':
+                                print("Rootcauses that could causing the outage", i.name,"are ",100*i.nodeweight,"%")
             else:
                 print("Invalid product")
             for i in Node.nodes.values():
@@ -222,6 +222,7 @@ addEdge(Node.nodes['h'],Node.nodes['j'],.97)
 addEdge(Node.nodes['h'],Node.nodes['k'],1)
 addEdge(Node.nodes['h'],Node.nodes['l'],.68)
 # =============================================================================
+print(Node.nodes['a'].bfs())
 print(Node.nodes['j'].bfs(toggle=1))
 #.incomingNeighbors:
 #                         if not i.isVisited:
