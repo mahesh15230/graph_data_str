@@ -34,6 +34,7 @@ class Node:
                 while len(q):
                     #print(len(q))
                     s = q.pop(0)
+                    print("Current source node is",s.name)
                     print("Queue is dequeued")
                     for i in s.outgoingNeighbors:
                         if not i.isVisited:
@@ -42,7 +43,7 @@ class Node:
                             print(i.name,"is visited")
                             print(i.nodeweight,"is pathweight so far")
                             print("Upcoming node is",i.name,"weight to be multiplied is", Edge.edges[s.name+str(":")+i.name].weight)
-                            i.nodeweight *= Edge.edges[s.name+str(":")+i.name].weight
+                            i.nodeweight *= Edge.edges[s.name+str(":")+i.name].weight * s.nodeweight
                             print("Pathweight so far is", i.nodeweight)
                             if i.classname == 'product':
                                 print("Outage occurence percentage for", i.name,"is ",100*i.nodeweight,"%")
@@ -60,7 +61,7 @@ class Node:
                     #print(len(q))
                     s = q.pop(0)
                     print("Queue is dequeued")
-                    for i in self.incomingNeighbors:
+                    for i in s.incomingNeighbors:
                         print("inside for loop")
                         if not i.isVisited:
                             q.append(i)
@@ -68,7 +69,7 @@ class Node:
                             print(i.name,"is visited")
                             print(i.nodeweight,"is pathweight so far")
                             print("Upcoming node is",i.name,"weight to be multiplied is", Edge.edges[i.name+str(":")+s.name].weight)
-                            i.nodeweight *= Edge.edges[i.name+str(":")+s.name].weight
+                            i.nodeweight *= Edge.edges[i.name+str(":")+s.name].weight * s.nodeweight
                             print("Pathweight so far is", i.nodeweight)
                             if i.classname == 'product':
                                 print("Outage occurence percentage for", i.name,"is ",100*i.nodeweight,"%")
@@ -113,26 +114,41 @@ class History:
         self.product = product
         self.hiddenLayer = HLs
         History.history[self.name] = self
-
+# =============================================================================
+# Debug rootcause to product
+# Debug product to rootcause
+# =============================================================================
 addNode('a','rootcause')
 addNode('b','rootcause')
 addNode('c','rootcause')
 addNode('d','HL')
 addNode('e','HL')
-addNode('f','product')
-addNode('g','product')
-addNode('h','product')
+addNode('f','HL')
+addNode('g','HL')
+addNode('h','HL')
 addNode('i','product')
-addEdge(Node.nodes['a'],Node.nodes['f'],1)
-addEdge(Node.nodes['a'],Node.nodes['d'],.3)
-addEdge(Node.nodes['b'],Node.nodes['d'],1)
-addEdge(Node.nodes['b'],Node.nodes['e'],.68)
-addEdge(Node.nodes['d'],Node.nodes['f'],.98)
-addEdge(Node.nodes['d'],Node.nodes['g'],.76)
-addEdge(Node.nodes['d'],Node.nodes['e'],.9)
-addEdge(Node.nodes['c'],Node.nodes['e'],.5)
-addEdge(Node.nodes['e'],Node.nodes['h'],.6)
-addEdge(Node.nodes['e'],Node.nodes['i'],.7)
-addEdge(Node.nodes['c'],Node.nodes['i'],.4)
+addNode('j','product')
+addNode('k','product')
+addNode('l','product')
+addEdge(Node.nodes['a'],Node.nodes['f'],.69)
+addEdge(Node.nodes['a'],Node.nodes['d'],1)
+addEdge(Node.nodes['a'],Node.nodes['e'],.6)
+addEdge(Node.nodes['b'],Node.nodes['d'],.8)
+addEdge(Node.nodes['b'],Node.nodes['e'],.67)
+addEdge(Node.nodes['c'],Node.nodes['d'],.72)
+addEdge(Node.nodes['c'],Node.nodes['e'],.39)
+addEdge(Node.nodes['d'],Node.nodes['f'],.5)
+addEdge(Node.nodes['d'],Node.nodes['g'],.9)
+addEdge(Node.nodes['d'],Node.nodes['h'],1)
+addEdge(Node.nodes['e'],Node.nodes['g'],.8)
+addEdge(Node.nodes['e'],Node.nodes['h'],.76)
+addEdge(Node.nodes['f'],Node.nodes['i'],.26)
+addEdge(Node.nodes['f'],Node.nodes['j'],1)
+addEdge(Node.nodes['g'],Node.nodes['j'],.81)
+addEdge(Node.nodes['g'],Node.nodes['k'],.62)
+addEdge(Node.nodes['g'],Node.nodes['l'],.43)
+addEdge(Node.nodes['h'],Node.nodes['j'],.97)
+addEdge(Node.nodes['h'],Node.nodes['k'],1)
+addEdge(Node.nodes['h'],Node.nodes['l'],.68)
 # =============================================================================
-print(Node.nodes['a'].bfs())
+print(Node.nodes['j'].bfs(toggle=1))
