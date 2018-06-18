@@ -1,6 +1,5 @@
 class Node:
     nodes = {}
-    graph = {}
     
     def __init__(self,nodeName,classname):
         self.name = nodeName
