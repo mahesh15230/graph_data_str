@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 
 class Node:
     nodes = {}
+    dict_id = {}
     def __init__(self,nodeName,classname):
         self.name = nodeName
         self.id = len(Node.nodes)
@@ -20,8 +21,8 @@ class Node:
         self.isVisited = False
         self.nodeweight = 1
         Node.nodes[self.name] = self
-        Node.graph[self] = self.outgoingNeighbors
-
+        Node.dict_id[self.id] = self
+        
             
     def resetnode(self):
         self.isVisited = False
