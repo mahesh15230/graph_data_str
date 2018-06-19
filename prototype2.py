@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 class Node:
     nodes = {}
-    dict_id = {}
+    node_id = {}
     def __init__(self,nodeName,classname):
         self.name = nodeName
         self.id = len(Node.nodes)
@@ -21,7 +21,7 @@ class Node:
         self.isVisited = False
         self.nodeweight = 1
         Node.nodes[self.name] = self
-        Node.dict_id[self.id] = self
+        Node.node_id[self.id] = self
         
             
     def resetnode(self):
@@ -87,8 +87,10 @@ def delEdge(fromNodename, toNodename):
     
 class Edge:
     edges = {}
+    edge_id = {}
     def __init__(self,fromNode,toNode,weight):
         if fromNode!=toNode:
+            self.id = len(Edge.edges)
             self.name = fromNode.name+str(":")+toNode.name
             self.weight = weight
             self.startNode = fromNode.name
@@ -96,7 +98,7 @@ class Edge:
             Node.nodes[toNode.name].incomingNeighbors.append(Node.nodes[fromNode.name])
             Node.nodes[fromNode.name].outgoingNeighbors.append(Node.nodes[toNode.name])
             Edge.edges[self.name] = self
-
+            Edge.edges[self.id] = self
             
 def addEdge(fromNode,toNode,weight):
     edgeAdded = Edge(fromNode,toNode,weight)
