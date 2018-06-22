@@ -7,8 +7,6 @@
 # 
 # =============================================================================
 
-import matplotlib.pyplot as plt
-
 class Node:
     nodes = {}
     node_id = {}
@@ -116,40 +114,3 @@ class History:
         self.hiddenLayer = HLs
         History.history[self.name] = self
 # =============================================================================
-addNode('a','rootcause')
-addNode('b','rootcause')
-addNode('c','rootcause')
-addNode('d','HL')
-addNode('e','HL')
-addNode('f','HL')
-addNode('g','HL')
-addNode('h','HL')
-addNode('i','product')
-addNode('j','product')
-addNode('k','product')
-addNode('l','product')
-addEdge(Node.nodes['a'],Node.nodes['f'],.69)
-addEdge(Node.nodes['a'],Node.nodes['d'],1)
-addEdge(Node.nodes['a'],Node.nodes['e'],.6)
-addEdge(Node.nodes['b'],Node.nodes['d'],.8)
-addEdge(Node.nodes['b'],Node.nodes['e'],.67)
-addEdge(Node.nodes['c'],Node.nodes['d'],.72)
-addEdge(Node.nodes['c'],Node.nodes['e'],.39)
-addEdge(Node.nodes['d'],Node.nodes['f'],.5)
-addEdge(Node.nodes['d'],Node.nodes['g'],.9)
-addEdge(Node.nodes['d'],Node.nodes['h'],1)
-addEdge(Node.nodes['e'],Node.nodes['g'],.8)
-addEdge(Node.nodes['e'],Node.nodes['h'],.76)
-addEdge(Node.nodes['f'],Node.nodes['i'],.26)
-addEdge(Node.nodes['f'],Node.nodes['j'],1)
-addEdge(Node.nodes['g'],Node.nodes['j'],.81)
-addEdge(Node.nodes['g'],Node.nodes['k'],.62)
-addEdge(Node.nodes['g'],Node.nodes['l'],.43)
-addEdge(Node.nodes['h'],Node.nodes['j'],.97)
-addEdge(Node.nodes['h'],Node.nodes['k'],1)
-addEdge(Node.nodes['h'],Node.nodes['l'],.68)
-        
-        
-        
-        
-        
