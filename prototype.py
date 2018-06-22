@@ -8,6 +8,7 @@
 # =============================================================================
 
 from flask import Flask, render_template, session, request
+import os
 
 class Node:
     nodes = {}
@@ -112,6 +113,18 @@ class History:
         History.history[self.name] = self
 # =============================================================================
 app = Flask(__name__)
+app.secret_key = os.urandom(16)
+
+@app.route('/')
+def loginpage():
+    return render_template('prelogin.html', default = 0)
+
+@app.route('/login/<str:username>/<str:pwd>', methods = [])
+def login(username,pwd):
+    #If vaidated check his access status go to homepage
+        return render_template('postlogin.html', auth = string)
+    else:
+        return render_template('prelogin.html', default = 1) # In html page if default is 1 it says invalid credentials. Otherwise it says please login
 @app.route('/<int:option>')
 def selectfn(option):
     #options would be addnode, addedge, do bfs forward direction, do bfs reverse direction,addhistory
