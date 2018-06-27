@@ -10,6 +10,9 @@
 from flask import Flask, render_template, session, request
 import os
 
+db = pymysql.connect(host="localhost", user="root", db="graph");
+cursor = db.cursor()
+
 class Node:
     nodes = {}
     node_id = {}
