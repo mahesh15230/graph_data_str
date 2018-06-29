@@ -28,7 +28,7 @@ def login(username,pwd):
         return render_template('prelogin.html', default = 1) # In html page if default is 1 it says invalid credentials. Otherwise it says please login
             
 @app.route('/postlogin/<int:option>')
-def selectfn(option):
+def postlogin(option):
     try:
       cursor.execute("select * from node;")
       nodes = cursor.fetchall()
@@ -109,3 +109,6 @@ def bfsR(product):
     else:
         print('!!!Error!!!')
     return render_template('bfsR.html',product=product)
+
+if __name__ == '__main__':
+    app.run()

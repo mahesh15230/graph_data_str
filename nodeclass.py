@@ -32,9 +32,9 @@ class Node:
                             Node.nodes[i].isVisited = True
                             Node.nodes[i].nodeweight *= Edge.edges[s+":"+i].weight * Node.nodes[s].nodeweight
                             if Node.nodes[i].classname == 'product':
-                                print("Outage occurence percentage for", i,"is ",100*Node.nodes[i].nodeweight,"%")
+                                textout = "Outage occurence probability for %s is %f" %(i, Node.nodes[i].nodeweight)
             else:
-                print("Invalid rootcause")
+                textout1 = "Invalid rootcause"
             for i in Node.nodes.values():
                 i.resetnode()
         else:
@@ -49,8 +49,8 @@ class Node:
                             Node.nodes[i].isVisited = True
                             Node.nodes[i].nodeweight *= Edge.edges[i+":"+s].weight * Node.nodes[s].nodeweight
                             if Node.nodes[i].classname == 'rootcause':
-                                print("Rootcauses that could causing the outage", i,"are ",100*Node.nodes[i].nodeweight,"%")
+                                textout2 = "Rootcause %s could result in an outage with probability %f" %(i, Node.nodes[i].nodeweight)
             else:
-                print("Invalid product")
+                textout3 = "Invalid product"
             for i in Node.nodes.values():
                 i.resetnode()
