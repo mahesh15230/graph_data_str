@@ -1,12 +1,17 @@
 from nodeclass import *
 
+def randgen():
+    lst = [random.choice(string.ascii_letters + string.digits) for n in range(30)]
+    str = "".join(lst)
+    return str
+
 class Edge:
     edges = {}
     edge_id = {}
     def __init__(self,id,fromNode,toNode,weight,name=None): # Except for weight and id everything else is a string
         if name == None:    
             if fromNode!=toNode:
-                self.id = len(Edge.edges)
+                self.id = randgen()
                 self.name = fromNode+":"+toNode
                 self.weight = weight
                 self.startNode = fromNode
