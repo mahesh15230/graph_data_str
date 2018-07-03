@@ -1,48 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<title>Login_Page</title>
-	<style>
+  <meta charset="UTF-8">
+  <title>Login_Page</title>
+<style>
 div{
     outline: solid 1px black;
 }
-
 #page {
     width:25%;
     height:250px;
     background: white;
     position:absolute;
     right:500px;
-    top:100px;
-    }
+  }
 }
-
 </style>
-
 </head>
 
-	<body>
-		<header>
-						   	
-     	</header>
+  <body>
+    <script language="javascript" type="text/javascript">
+function newDoc() {
+    window.open("file:///home/eagleateme/Desktop/Page_2.html","_self")
+}
+</script>
 
-		
-	   <div id="page">
+<script>
+function log_in(){
+  var pass = document.getElementById("password").value;
+  var user = document.getElementById("user_name").value;
+  if (pass == "password" && user == "user"){
+    newDoc();
+     
+  }
+  else {
+    alert("Login Error! Please Try Again");
+    
+  }
+}
+</script>
 
-                <form action="/post_login.html">
-                   &nbsp;User Name:<br>
-                  <input type="text" name="User Name" >
+     <div id="page">
+                  <form method="post">
+                  &nbsp;User Name:<br>
+                  <input id="user_name" type="text" name="User Name" >
                   <br>
                   &nbsp;Password:<br>
-                  <input type="password" name="Password"  >
+                  <input id="password" type="password" name="Password"  >
                   <br><br>
-                  <input type="Submit" value="Enter">
-                  </form> 
+                  <button id="myBtn" type="button" onclick="log_in()">Enter</button>
+                  </form>
        </div>
-
-
-	</body>
-
+  </body>
 </html>
