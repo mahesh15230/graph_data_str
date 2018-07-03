@@ -68,7 +68,7 @@ def login(username,pwd):
 def addNode(nodeName,classname):
     nodeAdded = Node(nodeName,classname)
     #send this to database
-    insertcmd = "insert into node values(%s, %s, %s, %s, %s);"%(nodeAdded.id, nodeAdded.name, nodeAdded.classname, nodeAdded.incomingNeighbors, nodeAdded.outgoingNeighbors);
+    insertcmd = "insert into node values(%s, %s, %s, %s, %s);"%(nodeAdded.id, nodeAdded.name, nodeAdded.classname, ','.join(nodeAdded.incomingNeighbors), ','.join(nodeAdded.outgoingNeighbors));
     cursor.execute(insertcmd);
 
     #add the same to the session object
