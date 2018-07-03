@@ -27,7 +27,7 @@ def login(username,pwd):
             cursor.execute("select * from node")
             nodes = cursor.fetchall()
             for node in nodes:
-                Node(node[1], node[2])
+                Node(node[1], node[2], node[0], node[3].split(','), node[4].split(','))
         except:
             print('Failed to fetch nodes')
 
@@ -35,7 +35,7 @@ def login(username,pwd):
             cursor.execute("select * from edge")
             edges = cursor.fetchall()
             for edge in edges:
-                Edge(edge[2], edge[3], edge[4])
+                Edge(edge[2], edge[3], edge[4], edge[0])
         except:
             print('Failed to fetch edges')
             return render_template('Homepage.html')
