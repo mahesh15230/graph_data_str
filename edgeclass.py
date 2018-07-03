@@ -1,4 +1,6 @@
 from nodeclass import *
+import string
+import random
 
 def randgen():
     lst = [random.choice(string.ascii_letters + string.digits) for n in range(30)]
