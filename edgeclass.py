@@ -10,19 +10,33 @@ def randgen():
 class Edge:
     edges = {}
     edge_id = {}
-    def __init__(self,id,fromNode,toNode,weight):   
-        if fromNode!=toNode:
-            self.id = randgen()
-            self.name = fromNode+":"+toNode
-            self.weight = weight
-            self.startNode = fromNode
-            self.endNode = toNode
-            Node.nodes[toNode].incomingNeighbors.append(fromNode)
-            Node.nodes[fromNode].outgoingNeighbors.append(toNode)
-            Edge.edges[self.name] = self
-            Edge.edges[self.id] = self
+    def __init__(self,fromNode,toNode,weight,id=None):   
+        if id == None:    
+            if fromNode!=toNode:
+                self.id = randgen()
+                self.name = fromNode+":"+toNode
+                self.weight = weight
+                self.startNode = fromNode
+                self.endNode = toNode
+                Node.nodes[toNode].incomingNeighbors.append(fromNode)
+                Node.nodes[fromNode].outgoingNeighbors.append(toNode)
+                Edge.edges[self.name] = self
+                Edge.edges[self.id] = self
+            else:
+                print("Error : Edge can't be created")
         else:
-            print("Error : Edge can't be created")
+            if fromNode!=toNode:
+                self.id = id
+                self.name = fromNode+":"+toNode
+                self.weight = weight
+                self.startNode = fromNode
+                self.endNode = toNode
+                Node.nodes[toNode].incomingNeighbors.append(fromNode)
+                Node.nodes[fromNode].outgoingNeighbors.append(toNode)
+                Edge.edges[self.name] = self
+                Edge.edges[self.id] = self
+            else:
+                print("Error : Edge can't be created")
     
 #     def get_id(self,toNode=None,fromNode=None):
 #         a = []
