@@ -3,7 +3,7 @@ from edgeclass import *
 class Node:
     nodes = {}
     node_id = {}
-    def __init__(self,nodeName,classname,incneigh=None,outneigh=None,id=None):
+    def __init__(self,nodeName,classname,id=None,incneigh=None,outneigh=None):
         self.name = nodeName
         self.id = len(Node.nodes)
         self.incomingNeighbors = [] # List of strings
