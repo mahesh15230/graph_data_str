@@ -1,3 +1,5 @@
+from nodeclass import *
+
 class Edge:
     edges = {}
     edge_id = {}
