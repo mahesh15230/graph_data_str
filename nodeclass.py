@@ -1,11 +1,18 @@
 from edgeclass import *
+import string
+import random
+
+def randgen():
+    lst = [random.choice(string.ascii_letters + string.digits) for n in xrange(30)]
+    str = "".join(lst)
+    return str
 
 class Node:
     nodes = {}
     node_id = {}
     def __init__(self,nodeName,classname,id=None,incneigh=None,outneigh=None):
         self.name = nodeName
-        self.id = len(Node.nodes)
+        self.id = randgen()
         self.incomingNeighbors = [] # List of strings
         self.outgoingNeighbors = [] # List of strings
         self.classname = classname # Can be 'rootcause','HL','RCS' or 'product'
