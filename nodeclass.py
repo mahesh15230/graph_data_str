@@ -3,7 +3,7 @@ import string
 import random
 
 def randgen():
-    lst = [random.choice(string.ascii_letters + string.digits) for n in xrange(30)]
+    lst = [random.choice(string.ascii_letters + string.digits) for n in range(30)]
     str = "".join(lst)
     return str
 
