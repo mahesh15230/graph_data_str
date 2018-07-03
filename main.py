@@ -68,7 +68,7 @@ def login(username,pwd):
 def addNode(nodeName,classname):
     nodeAdded = Node(nodeName,classname)
     #send this to database
-    insertcmd = "insert into node values(%d, %s, %s, %s, %s);"%(nodeAdded.id, nodeAdded.name, nodeAdded.classname, nodeAdded.incomingNeighbors, nodeAdded.outgoingNeighbors);
+    insertcmd = "insert into node values(%s, %s, %s, %s, %s);"%(nodeAdded.id, nodeAdded.name, nodeAdded.classname, nodeAdded.incomingNeighbors, nodeAdded.outgoingNeighbors);
     cursor.execute(insertcmd);
 
     #add the same to the session object
@@ -98,7 +98,7 @@ def addEdge(startnodename,endnodename,weight):
     if startnodename in Node.nodes.keys() and endnodename in Node.nodes.keys():
         edgeAdded = Edge(startnodename,endnodename,weight)
         #Send this to database
-        insertcmd = "insert into edge values(%d, %s, %d, %d, %d);"%(edgeAdded.edge_id, edgeAdded.name, edgeAdded.startNode, edgeAdded.endNode, edgeAdded.weight);
+        insertcmd = "insert into edge values(%s, %s, %s, %s, %f);"%(edgeAdded.edge_id, edgeAdded.name, edgeAdded.startNode, edgeAdded.endNode, edgeAdded.weight);
         cursor.execute(insertcmd)
         #Update incomingneigh, outgoingneigh column values of start and end nodes
         return render_template('addedge.html', startnode=startnodename, endnode=endnodename)
