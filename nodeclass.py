@@ -20,6 +20,7 @@ class Node:
     def bfs(self, toggle = None): # toggle == None is rootcause to products
         s = self.name
         q = []
+        string1 = ''
         if toggle == None:
             if self.classname == 'rootcause':
                 q.append(s)
@@ -33,6 +34,7 @@ class Node:
                             Node.nodes[i].nodeweight *= Edge.edges[s+":"+i].weight * Node.nodes[s].nodeweight
                             if Node.nodes[i].classname == 'product':
                                 textout = "Outage occurence probability for %s is %f" %(i, Node.nodes[i].nodeweight)
+                                string1 += textout + '\n'
             else:
                 textout1 = "Invalid rootcause"
             for i in Node.nodes.values():
@@ -50,6 +52,7 @@ class Node:
                             Node.nodes[i].nodeweight *= Edge.edges[i+":"+s].weight * Node.nodes[s].nodeweight
                             if Node.nodes[i].classname == 'rootcause':
                                 textout2 = "Rootcause %s could result in an outage with probability %f" %(i, Node.nodes[i].nodeweight)
+                                string1 += textout2 + '\n'
             else:
                 textout3 = "Invalid product"
             for i in Node.nodes.values():

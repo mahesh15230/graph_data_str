@@ -3,10 +3,10 @@ from jinja2 import Template
 from nodeclass import *
 from edgeclass import *
 import os
-import pymysql
+import sqlite3
 
 try:
-    db = pymysql.connect(host="localhost", user="root", db="graph");
+    db = sqlite3.connect(host="localhost", user="root", db="graph");
     cursor = db.cursor()
     logincheck = True
 except:
@@ -18,37 +18,52 @@ app.debug = True
 
 @app.route('/')
 def loginpage():
-    return render_template('prelogin.html', default = 0)
+    return render_template('Login_Page.html', methods = [])
 
 @app.route('/login/<str:username>/<str:pwd>', methods = [])
 def login(username,pwd):
     if logincheck:
-        return render_template('postlogin.html', auth = string)
+        try:
+            cursor.execute("select * from node")
+            nodes = cursor.fetchall()
+            for node in nodes:
+                Node(node[1], node[2])
+        except:
+            print('Failed to fetch nodes')
+
+        try:
+            cursor.execute("select * from edge")
+            edges = cursor.fetchall()
+            for edge in edges:
+                Edge(edge[2], edge[3], edge[4])
+        except:
+            print('Failed to fetch edges')
+            return render_template('Homepage.html')
     
     else:
-        return render_template('prelogin.html', default = 1) # In html page if default is 1 it says invalid credentials. Otherwise it says please login
+        return render_template('Login2.html') # In html page if default is 1 it says invalid credentials. Otherwise it says please login
             
-@app.route('/postlogin/<int:option>')
-def postlogin(option):
-    try:
-      cursor.execute("select * from node;")
-      nodes = cursor.fetchall()
-      for node in nodes:
-          Node(node[1], node[2])
-    except:
-        print('Failed to fetch nodes')
+# =============================================================================
+# @app.route('/postlogin/<int:option>')
+# def postlogin(option):
+#     try:
+#       cursor.execute("select * from node;")
+#       nodes = cursor.fetchall()
+#       for node in nodes:
+#           Node(node[1], node[2])
+#     except:
+#         print('Failed to fetch nodes')
+# 
+#     try:
+#       cursor.execute("select * from edge;")
+#       edges = cursor.fetchall()
+#       for edge in edges:
+#           Edge(edge[2], edge[3], edge[4])
+#     except:
+#         print('Failed to fetch edges')
+# =============================================================================
 
-    try:
-      cursor.execute("select * from edge;")
-      edges = cursor.fetchall()
-      for edge in edges:
-          Edge(edge[2], edge[3], edge[4])
-    except:
-        print('Failed to fetch edges')
 
-
-    #options would be addnode, addedge, do bfs forward direction, do bfs reverse direction,addhistory
-    #redirect to respective html page
 @app.route("/addnode/<str:classname>/<str:nodename>",methods = ['GET','POST'])
 def addNode(nodeName,classname):
     nodeAdded = Node(nodeName,classname)
