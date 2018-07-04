@@ -18,54 +18,37 @@ except:
 
 #@app.route('/')
 #def loginpage():
-#   return render_template('Login_Page.html')
+#   #return render_template('Login_Page.html')
 
 #@app.route('/login/<str:username>/<str:pwd>', methods = ['POST'])
-def login(username,pwd):
-    if logincheck:
-        try:
-            cursor.execute("select * from node")
-            nodes = cursor.fetchall()
-            print(nodes)
-            print('blah')
-            for node in nodes:
-                Node(node[1], node[2], node[0], node[3].split(','), node[4].split(','))
-        except:
-            string3 = 'Failed to fetch nodes'
-
-        try:
-            cursor.execute("select * from edge")
-            edges = cursor.fetchall()
-            for edge in edges:
-                Edge(edge[2], edge[3], edge[4], edge[0])
-        except:
-            string4 = 'Failed to fetch edges'
-            return render_template('Homepage.html')
-    
-    else:
-        return render_template('Login2.html') # In html page if default is 1 it says invalid credentials. Otherwise it says please login
-
-for key in Node.nodes:
-    print(Node.nodes[key])
-
-def randgen():
-    lst = [random.choice(string.ascii_letters + string.digits) for n in range(30)]
-    str = "".join(lst)
-    return str
 
 class Node:
     nodes = {}
     node_id = {}
-    def __init__(self,nodeName,classname):#,id=None,incneigh=None,outneigh=None):
-        self.name = nodeName
-        self.id = randgen()
-        self.incomingNeighbors = [] # List of strings
-        self.outgoingNeighbors = [] # List of strings
-        self.classname = classname # Can be 'rootcause','HL','RCS' or 'product'
-        self.isVisited = False
-        self.nodeweight = 1
-        Node.nodes[self.name] = self
-        Node.node_id[self.id] = self
+    def __init__(self,nodeName,classname,id=None,incneigh=None,outneigh=None):
+        if not nodeName in Node.nodes.keys():
+            if id==None and incneigh==None and outneigh==None:
+                self.name = nodeName
+                self.id = randgen()
+                self.incomingNeighbors = [] # List of strings
+                self.outgoingNeighbors = [] # List of strings
+                self.classname = classname # Can be 'rootcause','HL','RCS' or 'product'
+                self.isVisited = False
+                self.nodeweight = 1
+                Node.nodes[self.name] = self
+                Node.node_id[self.id] = self
+            else:
+                self.name = nodeName
+                self.id = id
+                self.incomingNeighbors = incneigh # List of strings
+                self.outgoingNeighbors = outneigh # List of strings
+                self.classname = classname # Can be 'rootcause','HL','RCS' or 'product'
+                self.isVisited = False
+                self.nodeweight = 1
+                Node.nodes[self.name] = self
+                Node.node_id[self.id] = self
+        else:
+            strin1g = "Node already exists"
         
             
     def resetnode(self):
@@ -121,7 +104,7 @@ def randgen1():
 
 class Edge:
     edges = {}
-    #edge_id = {}
+    edge_id = {}
     def __init__(self,fromNode,toNode,weight):#,id=None):   
         if id == None:    
             if fromNode!=toNode:
@@ -149,6 +132,42 @@ class Edge:
                 Edge.edges[self.id] = self
             else:
                 print("Error : Edge can't be created")
+
+
+def login(username,pwd):
+    if logincheck:
+        try:
+            cursor.execute("select * from node")
+            nodes = cursor.fetchall()
+            #print(nodes)
+            for i in nodes:
+                print(i)
+                dummy = Node(node[1], node[2], node[0])#node[3].split(','), node[4].split(','))
+                #print(Node.nodes)
+        except:
+            string3 = 'Failed to fetch nodes'
+
+        try:
+            cursor.execute("select * from edge")
+            edges = cursor.fetchall()
+            for edge in edges:
+                Edge(edge[2], edge[3], edge[4], edge[0])
+        except:
+            string4 = 'Failed to fetch edges'
+            #return render_template('Homepage.html')
+    
+    #else:
+        #return render_template('Login2.html') # In html page if default is 1 it says invalid credentials. Otherwise it says please login
+
+#for key in Node.nodes:
+ #   print(Node.nodes[key])
+
+def randgen():
+    lst = [random.choice(string.ascii_letters + string.digits) for n in range(30)]
+    str = "".join(lst)
+    return str
+
+
     
 #     def get_id(self,toNode=None,fromNode=None):
 #         a = []
@@ -198,7 +217,7 @@ def addNode(nodeName,classname):
     db.commit()
 
     #add the same to the session object
-    #return render_template("Add_Node.html", nodeName=nodeName, classname=classname)
+    ##return render_template("Add_Node.html", nodeName=nodeName, classname=classname)
 
 #@app.route("/delnode/<str:nodename>/<str:toggle>", methods = [])
 def delNode(nodeName,toggle=None):
@@ -227,7 +246,7 @@ def addEdge(startnodename,endnodename,weight):
         cursor.execute('insert into edge(edgeid,edgename,startnode,endnode,weight) values(?,?,?,?,?)',(randgen1(),edgeAdded.name,edgeAdded.startNode,edgeAdded.endNode,edgeAdded.weight))
         #cursor.execute('insert into edge(edgeid,edgename,startnode,endnode,weight) values(?,?,?,?,?)',(edgeAdded.id, edgeAdded.name, edgeAdded.startNode, edgeAdded.endNode, edgeAdded.weight))
         #Update incomingneigh, outgoingneigh column values of start and end nodes
-        #return render_template('addedge.html', startnode=startnodename, endnode=endnodename)
+        ##return render_template('addedge.html', startnode=startnodename, endnode=endnodename)
         db.commit()
     else:
         return "!!!Error!!!"
@@ -243,7 +262,7 @@ def bfsF(rootcause):
         rootcause.bfs()
     else:
         print("!!!Error!!!")
-    return render_template("bfsF.html", rootcause = rootcause)
+    #return render_template("bfsF.html", rootcause = rootcause)
 
 #@app.route('/bfsproduct/<str:product>', methods = [])
 def bfsR(product):
@@ -251,10 +270,9 @@ def bfsR(product):
         product.bfs(toggle=1)
     else:
         print('!!!Error!!!')
-    return render_template('bfsR.html',product=product)
+    #return render_template('bfsR.html',product=product)
 
 #if __name__ == '__main__':
     #app.run()
-
-
-
+login('a','a')
+print(Node.nodes)
