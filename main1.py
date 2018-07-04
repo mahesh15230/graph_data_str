@@ -26,30 +26,26 @@ class Node:
     nodes = {}
     node_id = {}
     def __init__(self,nodeName,classname,id=None,incneigh=None,outneigh=None):
-        if not nodeName in Node.nodes.keys():
-            if id==None and incneigh==None and outneigh==None:
-                self.name = nodeName
-                self.id = randgen()
-                self.incomingNeighbors = [] # List of strings
-                self.outgoingNeighbors = [] # List of strings
-                self.classname = classname # Can be 'rootcause','HL','RCS' or 'product'
-                self.isVisited = False
-                self.nodeweight = 1
-                Node.nodes[self.name] = self
-                Node.node_id[self.id] = self
-            else:
-                self.name = nodeName
-                self.id = id
-                self.incomingNeighbors = incneigh # List of strings
-                self.outgoingNeighbors = outneigh # List of strings
-                self.classname = classname # Can be 'rootcause','HL','RCS' or 'product'
-                self.isVisited = False
-                self.nodeweight = 1
-                Node.nodes[self.name] = self
-                Node.node_id[self.id] = self
+        if id==None and incneigh==None and outneigh==None:
+            self.name = nodeName
+            self.id = randgen()
+            self.incomingNeighbors = [] # List of strings
+            self.outgoingNeighbors = [] # List of strings
+            self.classname = classname # Can be 'rootcause','HL','RCS' or 'product'
+            self.isVisited = False
+            self.nodeweight = 1
+            Node.nodes[self.name] = self
+            Node.node_id[self.id] = self
         else:
-            strin1g = "Node already exists"
-        
+            self.name = nodeName
+            self.id = id
+            self.incomingNeighbors = incneigh # List of strings
+            self.outgoingNeighbors = outneigh # List of strings
+            self.classname = classname # Can be 'rootcause','HL','RCS' or 'product'
+            self.isVisited = False
+            self.nodeweight = 1
+            Node.nodes[self.name] = self
+            Node.node_id[self.id] = self        
             
     def resetnode(self):
         self.isVisited = False
@@ -274,5 +270,25 @@ def bfsR(product):
 
 #if __name__ == '__main__':
     #app.run()
-login('a','a')
-print(Node.nodes)
+addNode('a','rootcause')
+addNode('b','rootcause')
+addNode('c','rootcause')
+addNode('d','HL')
+addNode('e','HL')
+addNode('f','HL')
+addNode('g','product')
+addNode('h','product')
+addNode('i','product')
+addNode('j','product')
+addEdge('a','d',.4)
+addEdge('d','g',.4)
+addEdge('b','d',.4)
+addEdge('d','h',.4)
+addEdge('a','e',.4)
+addEdge('d','f',.4)
+addEdge('b','e',.4)
+addEdge('c','e',.4)
+addEdge('c','j',.4)
+addEdge('e','f',.4)
+addEdge('f','i',.4)
+addEdge('e','j',.4)
