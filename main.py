@@ -18,9 +18,9 @@ app.debug = True
 
 @app.route('/')
 def loginpage():
-    return render_template('Login_Page.html', methods = [])
+    return render_template('Login_Page.html')
 
-@app.route('/login/<str:username>/<str:pwd>', methods = [])
+@app.route('/login/<str:username>/<str:pwd>', methods = ['POST'])
 def login(username,pwd):
     if logincheck:
         try:
@@ -29,7 +29,7 @@ def login(username,pwd):
             for node in nodes:
                 Node(node[1], node[2], node[0], node[3].split(','), node[4].split(','))
         except:
-            print('Failed to fetch nodes')
+            string3 = 'Failed to fetch nodes'
 
         try:
             cursor.execute("select * from edge")
@@ -37,7 +37,7 @@ def login(username,pwd):
             for edge in edges:
                 Edge(edge[2], edge[3], edge[4], edge[0])
         except:
-            print('Failed to fetch edges')
+            string4 = 'Failed to fetch edges'
             return render_template('Homepage.html')
     
     else:
@@ -66,7 +66,10 @@ def login(username,pwd):
 
 @app.route("/addnode/<str:classname>/<str:nodename>",methods = ['GET','POST'])
 def addNode(nodeName,classname):
-    nodeAdded = Node(nodeName,classname)
+    if not nodeName in Node.nodes.keys():
+        nodeAdded = Node(nodeName,classname)
+    else:
+        string2 = "Node can't be created with a name that already exists"
     #send this to database
     insertcmd = "insert into node values(%s, %s, %s, %s, %s);"%(nodeAdded.id, nodeAdded.name, nodeAdded.classname, ','.join(nodeAdded.incomingNeighbors), ','.join(nodeAdded.outgoingNeighbors));
     cursor.execute(insertcmd);

@@ -20,7 +20,6 @@ class Node:
         self.nodeweight = 1
         Node.nodes[self.name] = self
         Node.node_id[self.id] = self
-        
             
     def resetnode(self):
         self.isVisited = False
