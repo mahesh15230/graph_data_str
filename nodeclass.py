@@ -11,26 +11,29 @@ class Node:
     nodes = {}
     node_id = {}
     def __init__(self,nodeName,classname,id=None,incneigh=None,outneigh=None):
-        if id!=None and incneigh!=None and outneigh!=None:        
-            self.name = nodeName
-            self.id = randgen()
-            self.incomingNeighbors = [] # List of strings
-            self.outgoingNeighbors = [] # List of strings
-            self.classname = classname # Can be 'rootcause','HL','RCS' or 'product'
-            self.isVisited = False
-            self.nodeweight = 1
-            Node.nodes[self.name] = self
-            Node.node_id[self.id] = self
+        if not nodeName in Node.nodes.keys():        
+            if id!=None and incneigh!=None and outneigh!=None:        
+                self.name = nodeName
+                self.id = randgen()
+                self.incomingNeighbors = [] # List of strings
+                self.outgoingNeighbors = [] # List of strings
+                self.classname = classname # Can be 'rootcause','HL','RCS' or 'product'
+                self.isVisited = False
+                self.nodeweight = 1
+                Node.nodes[self.name] = self
+                Node.node_id[self.id] = self
+            else:
+                self.name = nodeName
+                self.id = id
+                self.incomingNeighbors = incneigh # List of strings
+                self.outgoingNeighbors = outneigh # List of strings
+                self.classname = classname # Can be 'rootcause','HL','RCS' or 'product'
+                self.isVisited = False
+                self.nodeweight = 1
+                Node.nodes[self.name] = self
+                Node.node_id[self.id] = self
         else:
-            self.name = nodeName
-            self.id = id
-            self.incomingNeighbors = incneigh # List of strings
-            self.outgoingNeighbors = outneigh # List of strings
-            self.classname = classname # Can be 'rootcause','HL','RCS' or 'product'
-            self.isVisited = False
-            self.nodeweight = 1
-            Node.nodes[self.name] = self
-            Node.node_id[self.id] = self
+            print("Node already exists")
             
     def resetnode(self):
         self.isVisited = False
