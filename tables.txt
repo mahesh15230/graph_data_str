@@ -1,25 +1,3 @@
 create table node(nodeid text, nodename text, classname text, incomingnodes text, outgoingnodes text, primary key(nodeid));
-
-
-+---------------+---------+------+-----+---------+-------+
-| Field         | Type    | Null | Key | Default | Extra |
-+---------------+---------+------+-----+---------+-------+
-| nodeid        | int(11) | NO   | PRI | NULL    |       |
-| nodename      | text    | YES  |     | NULL    |       |
-| classname     | text    | YES  |     | NULL    |       |
-| incomingnodes | text    | YES  |     | NULL    |       |
-| outgoingnodes | text    | YES  |     | NULL    |       |
-+---------------+---------+------+-----+---------+-------+
-
-
 create table edge(edgeid text, edgename text, startnode text, endnode text, weight numeric(6,5), primary key(edgeid));
 
-+-----------+---------+------+-----+---------+-------+
-| Field     | Type    | Null | Key | Default | Extra |
-+-----------+---------+------+-----+---------+-------+
-| edgeid    | int(11) | NO   | PRI | NULL    |       |
-| edgename  | text    | YES  |     | NULL    |       |
-| startnode | int(11) | YES  |     | NULL    |       |
-| endnode   | int(11) | YES  |     | NULL    |       |
-| weight    | int(11) | YES  |     | NULL    |       |
-+-----------+---------+------+-----+---------+-------+
