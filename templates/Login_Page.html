@@ -19,36 +19,17 @@ div{
 </head>
 
   <body>
-    <script language="javascript" type="text/javascript">
-function newDoc() {
-    window.open("Page_2.html","_self")
-}
-</script>
 
-<script>
-function log_in(){
-  var pass = document.getElementById("password").value;
-  var user = document.getElementById("user_name").value;
-  if (pass == "password" && user == "user"){
-    newDoc();
-     
-  }
-  else {
-    alert("Login Error! Please Try Again");
-    
-  }
-}
-</script>
 
      <div id="page">
-                  <form method="post">
+                  <form method="post" action="login">
                   &nbsp;User Name:<br>
-                  <input id="user_name" type="text" name="User Name" >
+                  <input id="user_name" type="text" name="un" >
                   <br>
                   &nbsp;Password:<br>
-                  <input id="password" type="password" name="Password"  >
+                  <input id="password" type="password" name="pwd"  >
                   <br><br>
-                  <button id="myBtn" type="button" onclick="log_in()">Enter</button>
+                  <input  type="submit" name="Signin" value="Sigin">
                   </form>
        </div>
   </body>
